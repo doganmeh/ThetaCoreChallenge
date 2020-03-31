@@ -128,4 +128,4 @@ STATICFILES_DIRS = [
 ]
 
 # app settings #####################################################################################
-BITLY_ACCESS_TOKEN = '-----------------get your own!'
+BITLY_ACCESS_TOKEN = '-----------------COMING IN EMAIL!'

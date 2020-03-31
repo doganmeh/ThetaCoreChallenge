@@ -96,5 +96,6 @@ def expert_detail(request, pk):
         context = {
             'expert': expert,
             'term': term,
+            'connections': expert.connections(term)
         }
         return render(request, template_name=template_name, context=context)

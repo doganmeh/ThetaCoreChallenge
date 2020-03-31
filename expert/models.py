@@ -2,6 +2,7 @@ import datetime
 
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils.timezone import make_aware
 
 
@@ -16,6 +17,9 @@ class Expert(models.Model):
     # there is no need for related_name because friendships are bi-directional
     created = models.DateTimeField(default=datetime.datetime.now)
     modified = models.DateTimeField(null=True, blank=True)
+    
+    def get_absolute_url(self):
+        return reverse('expert:expert-detail', args=[self.id])
     
     def header_count(self):
         # tofix: header count shows 1 instead of 0
@@ -69,7 +73,7 @@ class Expert(models.Model):
         
         consider = []
         eligible = []
-        # todo: consider select_related or prefetch_related to minimize the # of trips to the db
+        # todo: consider select_related/prefetch_related to minimize the # of trips to the db
         friends = self.friends.all()
         for friend in friends:
             for friends_friend in friend.friends.all():
