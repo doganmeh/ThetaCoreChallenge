@@ -1,0 +1,24 @@
+{# parent template for both create and update #}
+
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+  <div class="form-wrapper">
+    {% if form %}
+      <form class="form form-horizontal" method="post" action="{{ request.url }}">
+        {% csrf_token %}
+
+        {% bootstrap_form form layout='horizontal' %}
+
+        <div class="text-center">
+            <input type="submit" class="btn btn-primary" value="Submit" />
+            <a class="btn btn-info" href="{% url view.model|list_url %}">
+            Go Back To {{ view.model|model_name }} List</a>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
+

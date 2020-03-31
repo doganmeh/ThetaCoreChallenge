@@ -1,0 +1,19 @@
+
+body {
+    padding-top: 70px; /* needed for Bootstrap nav bar */
+}
+
+.content-wrapper { /* center the content and keep it at a reasonable width */
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-wrapper { /* extra padding for the forms to make them narrower */
+    padding: 20px 200px;
+}
+
+nav img {  /* adjust the vertical position of the over-sized image (should have been 30x30) */
+    margin-top: -9px;
+    margin-bottom: -7px;
+}

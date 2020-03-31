@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="delete-wrapper">
+        <form class="text-center mt-5" action="{{ request.url }}" method="post">
+            {% csrf_token %}
+            <h2>Are you sure you want to delete this {{ view.model|model_name|lower }}?</h2>
+            <h4 class="mt-4 mb-4">{{ object }}</h4>
+
+            <div class="mt-4">
+                <input class="btn btn-warning" type="submit" value="Confirm"/>
+                <a class="btn btn-info" href="{% url view.model|list_url %}">
+                Go Back To {{ view.model|model_name }} List</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

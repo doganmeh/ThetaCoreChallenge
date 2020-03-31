@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ view.model|model_name }}s
+{% endblock %}
+
+{% block header %}
+  <i class="fa fa-plus"></i> {{ view.model|model_name }}s
+{% endblock %}
+
+{% block content-footer %}
+  <a class="btn btn-primary" href="{% url view.model|create_url %}?next={% url view.model|list_url %}">
+    Create New {{ view.model|model_name }}</a>
+{% endblock %}
