@@ -1,0 +1,9 @@
+{% extends 'common/detail.html' %}
+
+{% block header %}
+   {{ object }}
+{% endblock %}
+
+{% block content %}
+    {% include 'expert/expert_card.html' with expert=object %}
+{% endblock %}

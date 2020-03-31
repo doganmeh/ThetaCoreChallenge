@@ -1,0 +1,14 @@
+{% extends 'common/list.html' %}
+
+{% block content %}
+  <div class="row">
+    {% for expert in object_list %}
+      {% include 'expert/expert_card.html' with expert=expert %}
+
+    {% empty %}
+        <li>No experts yet.</li>
+    {% endfor %}
+  </div>
+
+{% endblock %}
+

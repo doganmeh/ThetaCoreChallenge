@@ -8,7 +8,7 @@ from django.utils.timezone import make_aware
 class Expert(models.Model):
     # user editable fields
     name = models.CharField(max_length=100, null=False, blank=False)
-    friends = models.ManyToManyField('self')
+    friends = models.ManyToManyField('self', blank=True)
     long_url = models.URLField(verbose_name='URL', null=False, blank=False)
     # non user editable fields
     short_url = models.URLField(null=True, blank=True)
@@ -17,13 +17,23 @@ class Expert(models.Model):
     created = models.DateTimeField(default=datetime.datetime.now)
     modified = models.DateTimeField(null=True, blank=True)
     
+    def header_count(self):
+        return len(self.heading_text.split('\n'))
+    
+    def friend_count(self):
+        return len(self.friends.all())
+    
+    def __str__(self):
+        return self.name + " (" + self.short_url + ")"
+    
     @classmethod
     def strip_non_header_text(cls, raw_header):
         import re
         headers = re.findall('<(h1|h2).*?>(.+?)</(h1|h2)>', raw_header)
-        headers = [header[0] + ': ' + re.sub('<.*?>', '', header[1]) for header in headers]
+        headers = [header[0] + ': ' + re.sub('<.*?>', '', header[1]) + '<br/>' for header in
+                   headers]
         return '\n'.join(headers).lower()
-
+    
     def save(self, *args, **kwargs):
         original = None
         if self.pk is not None:  # being updated

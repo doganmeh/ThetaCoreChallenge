@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'bootstrap4',
+
     'expert.apps.ExpertConfig'
 ]
 
@@ -54,9 +56,10 @@ ROOT_URLCONF = 'ThetaCoreChallenge.urls'
 TEMPLATES = [
     {
         'BACKEND' : 'django.template.backends.django.DjangoTemplates',
-        'DIRS'    : [],
+        'DIRS'    : ['templates', ],
         'APP_DIRS': True,
         'OPTIONS' : {
+            'builtins'          : ['templatetags.common'],
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',

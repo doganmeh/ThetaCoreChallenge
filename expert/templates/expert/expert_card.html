@@ -1,0 +1,19 @@
+<div class="col-sm-4 mb-5">
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{ expert.name }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+        <a href="{{ expert.short_url }}>" target="_blank">{{ expert.short_url }}</a>
+      </h6>
+      <p class="card-text">
+        {{ expert.header_count}} Header(s),
+        {{ expert.friend_count}} Friend(s)
+      </p>
+
+      {% url 'expert:expert-list' as next %}
+      <a href="{% url 'expert:expert-detail' expert.id %}" class="card-link">Details</a>
+      <a href="{% url 'expert:expert-update' expert.id %}?next={{ next }}" class="card-link">Update</a>
+      <a href="{% url 'expert:expert-delete' expert.id %}?next={{ next }}" class="card-link">Delete</a>
+    </div>
+  </div>
+</div>
