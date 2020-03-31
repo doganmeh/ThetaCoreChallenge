@@ -14,6 +14,21 @@
     {{ expert.heading_text|safe }}
   </div>
 
+  {# search-friends #}
+  <div class="search-friends text-center">
+    <h2>Search Friends</h2>
+    <div class="form-wrapper">
+      <form class="form form-horizontal" method="post" action="{{ request.url }}">
+        {% csrf_token %}
+
+        <div class="text-center">
+          <input class="form-control" type="text" value="{{ term }}" name="term" placeholder="Search Friends Headers">
+          <input type="submit" class="btn btn-primary" value="Submit"/>
+        </div>
+      </form>
+    </div>
+  </div>
+
   {# friends #}
   <div class="friends text-center">
     <h2>Friends</h2>
@@ -24,14 +39,15 @@
     </div>
   </div>
 
-
-  <div class="text-center">
-    {% url 'expert:expert-list' as next %}
-    <a href="{% url 'expert:expert-detail' expert.id %}" class="card-link">Details</a>
-    <a href="{% url 'expert:expert-update' expert.id %}?next={{ next }}"
-       class="card-link">Update</a>
-    <a href="{% url 'expert:expert-delete' expert.id %}?next={{ next }}"
-       class="card-link">Delete</a>
+  {# action links #}
+  <div class="actions text-center">
+    <h2>Actions</h2>
+    <div class="text-center">
+      <a href="{% url 'expert:expert-update' expert.id %}?next={% url 'expert:expert-detail' expert.id %}"
+         class="card-link">Update</a>
+      <a href="{% url 'expert:expert-delete' expert.id %}?next={% url 'expert:expert-list' %}"
+         class="card-link">Delete</a>
+    </div>
   </div>
 {% endblock %}
 

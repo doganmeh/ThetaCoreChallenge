@@ -92,4 +92,9 @@ def expert_detail(request, pk):
 
     if request.method == "POST":
         expert = models.Expert.objects.get(pk=pk)
-        return render(request, template_name=template_name, context={'expert': expert})
+        term = request.POST.get('term')
+        context = {
+            'expert': expert,
+            'term': term,
+        }
+        return render(request, template_name=template_name, context=context)

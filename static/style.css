@@ -18,11 +18,19 @@ nav img { /* adjust the vertical position of the over-sized image (should have b
     margin-bottom: -7px;
 }
 
-div.friends {
-    margin-bottom: 55px;
+div.headers,
+div.friends,
+div.friends-search {
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
-div.friends div.card {
-    margin-left: auto;
-    margin-right: auto;
+div.search-friends input[type="text"] {
+    display: inline-block;
+    max-width: 300px;
 }
+
+div.search-friends input[type="submit"] {
+    vertical-align: baseline;
+}
+
