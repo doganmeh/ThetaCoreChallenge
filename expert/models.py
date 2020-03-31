@@ -22,7 +22,7 @@ class Expert(models.Model):
         import re
         headers = re.findall('<(h1|h2).*?>(.+?)</(h1|h2)>', raw_header)
         headers = [header[0] + ': ' + re.sub('<.*?>', '', header[1]) for header in headers]
-        return '\n'.join(headers)
+        return '\n'.join(headers).lower()
 
     def save(self, *args, **kwargs):
         original = None
