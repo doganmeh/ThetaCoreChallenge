@@ -17,6 +17,13 @@ class Expert(models.Model):
     created = models.DateTimeField(default=datetime.datetime.now)
     modified = models.DateTimeField(null=True, blank=True)
     
+    @classmethod
+    def strip_non_header_text(cls, raw_header):
+        import re
+        headers = re.findall('<(h1|h2).*?>(.+?)</(h1|h2)>', raw_header)
+        headers = [header[0] + ': ' + re.sub('<.*?>', '', header[1]) for header in headers]
+        return '\n'.join(headers)
+
     def save(self, *args, **kwargs):
         original = None
         if self.pk is not None:  # being updated
@@ -31,6 +38,13 @@ class Expert(models.Model):
         
         # get heading text
         if original is None or self.long_url != original.long_url:
-            pass
-        
+            from urllib import request
+            response = request.urlopen(self.long_url)
+            html = response.read()
+            charset = response.info().get_charset()
+            if charset is None:
+                charset = 'latin-1'
+                # see: https://stackoverflow.com/a/25759213/2863603
+            html = html.decode(charset)
+            self.heading_text = self.strip_non_header_text(html)
         super().save(*args, **kwargs)

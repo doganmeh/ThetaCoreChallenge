@@ -12,3 +12,9 @@ class ExpertModelTests(TestCase):
         from urllib import request
         response = request.urlopen(expert.short_url)
         self.assertEqual(expert.long_url, response.url)
+    
+    def test_strip_non_header_text(self):
+        html = '<h1>mehmet</h1><h2>serdar</h2><h3>dogan</h3>><h2><strong>dogan<strong></h2>'
+        stripped = models.Expert.strip_non_header_text(html)
+        expected = "h1: mehmet\nh2: serdar\nh2: dogan"
+        self.assertEqual(stripped, expected)
