@@ -123,3 +123,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+# app settings #####################################################################################
+BITLY_ACCESS_TOKEN = '-----------------get your own!'
