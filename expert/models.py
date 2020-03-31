@@ -34,7 +34,7 @@ class Expert(models.Model):
     @classmethod
     def strip_non_header_text(cls, raw_header):
         import re
-        headers = re.findall('<(h1|h2).*?>(.+?)</(h1|h2)>', raw_header)
+        headers = re.findall('<(h1|h2|h3).*?>(.+?)</(h1|h2|h3)>', raw_header)
         headers = [header[0] + ': ' + re.sub('<.*?>', '', header[1]) + '<br/>' for header in
                    headers]
         return '\n'.join(headers).lower()
