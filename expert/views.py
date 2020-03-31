@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.shortcuts import render
 from django.views import generic
 
 from expert import models
@@ -66,21 +67,29 @@ class ExpertList(ListView):
     model = models.Expert
 
 
-class ExpertDetail(DetailView):
-    template_name = 'expert/expert_detail.html'
-    model = models.Expert
-    fields = ['name', 'long_url', 'friends', ]
-
-
 class ExpertCreate(CreateView):
+    # todo: exclude self from choices of friends field
     model = models.Expert
     fields = ['name', 'long_url', 'friends', ]
 
 
 class ExpertUpdate(UpdateView):
+    # todo: exclude self from choices of friends field
     model = models.Expert
     fields = ['name', 'long_url', 'friends', ]
 
 
 class ExpertDelete(DeleteView):
     model = models.Expert
+
+
+def expert_detail(request, pk):
+    template_name = 'expert/expert_detail.html'
+
+    if request.method == "GET":
+        expert = models.Expert.objects.get(pk=pk)
+        return render(request, template_name=template_name, context={'expert': expert})
+
+    if request.method == "POST":
+        expert = models.Expert.objects.get(pk=pk)
+        return render(request, template_name=template_name, context={'expert': expert})
