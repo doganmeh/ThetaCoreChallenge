@@ -18,6 +18,7 @@ class Expert(models.Model):
     modified = models.DateTimeField(null=True, blank=True)
     
     def header_count(self):
+        # tofix: header count shows 1 instead of 0
         return len(self.heading_text.split('\n'))
     
     def friend_count(self):

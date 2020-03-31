@@ -1,9 +1,42 @@
 {% extends 'common/detail.html' %}
 
 {% block header %}
-   {{ object }}
+  {{ object.name }}
+  <br/>
+  <a href="{{ object.short_url }}" target="_blank">{{ object.short_url }}</a>
 {% endblock %}
 
 {% block content %}
-    {% include 'expert/expert_card.html' with expert=object %}
+
+  {# headers #}
+  <div class="friends ">
+    <div class="card" style="width: 22rem;">
+      <div class="card-body">
+        <h5 class="card-title">Headers</h5>
+        <p class="card-text">
+          {{ object.heading_text|safe }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {# friends #}
+  <div class="friends text-center">
+    <h1>Friends</h1>
+    <div class="row">
+      {% for friend in object.friends.all %}
+        {% include 'expert/expert_card.html' with expert=friend %}
+      {% endfor %}
+    </div>
+  </div>
+
+
+  <div class="text-center">
+    {% url 'expert:expert-list' as next %}
+    <a href="{% url 'expert:expert-detail' expert.id %}" class="card-link">Details</a>
+    <a href="{% url 'expert:expert-update' expert.id %}?next={{ next }}"
+       class="card-link">Update</a>
+    <a href="{% url 'expert:expert-delete' expert.id %}?next={{ next }}"
+       class="card-link">Delete</a>
+  </div>
 {% endblock %}
