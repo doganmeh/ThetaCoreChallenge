@@ -59,3 +59,32 @@ class Expert(models.Model):
             html = html.decode(charset)
             self.heading_text = self.strip_non_header_text(html)
         super().save(*args, **kwargs)
+    
+    def connections(self, term, limit=10):
+        # todo: obviously traversing a graph in database with Python will not be efficient
+        # for scalability a database side solution could be considered, e.g., a recursive CTE query
+        
+        if term is None or term == '':
+            return []
+        
+        consider = []
+        eligible = []
+        # todo: consider select_related or prefetch_related to minimize the # of trips to the db
+        friends = self.friends.all()
+        for friend in friends:
+            for friends_friend in friend.friends.all():
+                if friends_friend != self and friends_friend not in friends:
+                    consider.append([self, friend, friends_friend])
+        
+        while len(consider):
+            connection = consider.pop(0)
+            person = connection[-1]
+            if term in person.heading_text:
+                eligible.append(connection)
+            if len(connection) < limit:
+                # greedy search: include connection's connections even if they have the search terms
+                for friend in person.friends.all():
+                    if friend not in connection:
+                        new_connection = connection + [friend]
+                        consider.append(new_connection)
+        return eligible
