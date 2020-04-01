@@ -11,7 +11,11 @@
   {# headers #}
   <div class="headers text-center">
     <h2>Headers</h2>
-    {{ expert.heading_text|safe }}
+    <ul class="list-group list-group-flush">
+      {% for header in expert.get_header_list %}
+        <li class="list-group-item">{{ header }}</li>
+      {% endfor %}
+    </ul>
   </div>
 
   {# search-friends #}

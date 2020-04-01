@@ -19,7 +19,7 @@ class ExpertModelTests(TestCase):
         html = '<h1>MEHMET</h1><h2 class="nonsense">' \
                'serdar</h2><h4>not-dogan</h4>><h3><strong>dogan<strong></h3>'
         stripped = models.Expert.strip_non_header_text(html)
-        expected = "h1: mehmet<br/>\nh2: serdar<br/>\nh3: dogan<br/>"
+        expected = "h1: mehmet\nh2: serdar\nh3: dogan"
         self.assertEqual(stripped, expected)
 
 

@@ -21,6 +21,9 @@ class Expert(models.Model):
     def get_absolute_url(self):
         return reverse('expert:expert-detail', args=[self.id])
     
+    def get_header_list(self):
+        return self.heading_text.split('\n')
+    
     def header_count(self):
         # tofix: header count shows 1 instead of 0
         return len(self.heading_text.split('\n'))
@@ -35,8 +38,7 @@ class Expert(models.Model):
     def strip_non_header_text(cls, raw_header):
         import re
         headers = re.findall('<(h1|h2|h3).*?>(.+?)</(h1|h2|h3)>', raw_header)
-        headers = [header[0] + ': ' + re.sub('<.*?>', '', header[1]) + '<br/>' for header in
-                   headers]
+        headers = [header[0] + ': ' + re.sub('<.*?>', '', header[1]) for header in headers]
         return '\n'.join(headers).lower()
     
     def save(self, *args, **kwargs):
