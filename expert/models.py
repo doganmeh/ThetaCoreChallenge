@@ -25,7 +25,8 @@ class Expert(models.Model):
         return self.heading_text.split('\n')
     
     def header_count(self):
-        # tofix: header count shows 1 instead of 0
+        if self.heading_text == '':
+            return 0
         return len(self.heading_text.split('\n'))
     
     def friend_count(self):
