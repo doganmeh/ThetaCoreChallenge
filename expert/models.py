@@ -51,6 +51,7 @@ class Expert(models.Model):
         # shorten url
         if original is None or self.long_url != original.long_url:
             import bitly_api
+            # todo: wrap below code in try .. except for possible connection issues
             conn = bitly_api.Connection(access_token=settings.BITLY_ACCESS_TOKEN)
             self.short_url = conn.shorten(uri=self.long_url)['url']
         
