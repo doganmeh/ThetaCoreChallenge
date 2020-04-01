@@ -56,14 +56,18 @@ class Expert(models.Model):
         # get heading text
         if original is None or self.long_url != original.long_url:
             from urllib import request
-            response = request.urlopen(self.long_url)
-            html = response.read()
-            charset = response.info().get_charset()
-            if charset is None:
-                charset = 'latin-1'
-                # see: https://stackoverflow.com/a/25759213/2863603
-            html = html.decode(charset)
-            self.heading_text = self.strip_non_header_text(html)
+            from urllib.error import URLError
+            try:
+                response = request.urlopen(self.long_url)
+                html = response.read()
+                charset = response.info().get_charset()
+                if charset is None:
+                    charset = 'latin-1'  # see: https://stackoverflow.com/a/25759213/2863603
+                html = html.decode(charset)
+                self.heading_text = self.strip_non_header_text(html)
+            except URLError:
+                raise URLError('Expert object CANNOT be saved due to bad url!')
+                # TOFIX: catch this error at the view level and return the form with a kind message
         super().save(*args, **kwargs)
     
     def connections(self, term, limit=10):
