@@ -68,7 +68,7 @@ class Expert(models.Model):
                 self.heading_text = self.strip_non_header_text(html)
             except URLError:
                 raise URLError('Expert object CANNOT be saved due to bad url!')
-                # TOFIX: catch this error at the view level and return the form with a kind message
+                # caught at the view level
         super().save(*args, **kwargs)
     
     def connections(self, term, limit=10):

@@ -1,3 +1,5 @@
+from urllib.error import URLError
+
 from django.contrib import messages
 from django.shortcuts import render
 from django.views import generic
@@ -67,13 +69,22 @@ class ExpertList(ListView):
     model = models.Expert
 
 
-class ExpertCreate(CreateView):
+class CreateUpdateMixin:
+    def form_valid(self, form):
+        try:
+            return super().form_valid(form)
+        except URLError:
+            messages.error(self.request, 'Expert object CANNOT be saved due to bad url!')
+            return self.form_invalid(form)
+
+
+class ExpertCreate(CreateUpdateMixin, CreateView):
     # todo: exclude self from choices of friends field
     model = models.Expert
     fields = ['name', 'long_url', 'friends', ]
 
 
-class ExpertUpdate(UpdateView):
+class ExpertUpdate(CreateUpdateMixin, UpdateView):
     # todo: exclude self from choices of friends field
     model = models.Expert
     fields = ['name', 'long_url', 'friends', ]
@@ -85,17 +96,17 @@ class ExpertDelete(DeleteView):
 
 def expert_detail(request, pk):
     template_name = 'expert/expert_detail.html'
-
+    
     if request.method == "GET":
         expert = models.Expert.objects.get(pk=pk)
         return render(request, template_name=template_name, context={'expert': expert})
-
+    
     if request.method == "POST":
         expert = models.Expert.objects.get(pk=pk)
         term = request.POST.get('term')
         context = {
-            'expert': expert,
-            'term': term,
+            'expert'     : expert,
+            'term'       : term,
             'connections': expert.connections(term)
         }
         return render(request, template_name=template_name, context=context)
